@@ -9,13 +9,15 @@ from resources.category import Category, CategoryList
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+app = Flask(__name__,instance_relative_config=True)
+app.config.from_pyfile('flask.cfg')
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'Now you cant see me'
 api = Api(app)
 
 @app.before_first_request
+
 def create_tables():
     db.create_all()
 
